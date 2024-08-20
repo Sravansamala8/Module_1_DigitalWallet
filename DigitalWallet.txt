@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool comparebal(const pair<int,int>&a,const pair<int,int>&b){
+    return a.second<b.second;
+}
+bool transaction(int senderid,int receiverid,int amount,vector<pair<int,int>>&account){
+    if(account[senderid-1].second>=amount){
+     account[receiverid-1].second+=amount;
+        account[senderid-1].second-=amount;
+        return true;
+    }
+    return false;
+}
+int main() {
+      int n;
+    cin>>n;
+    vector<pair<int,int>>account;
+    for(int i=0;i<n;++i){
+        int userid,balance;
+        cin>>userid>>balance;
+        account.push_back({userid,balance});
+    }
+    int t;
+    cin>>t;
+    vector<string>result;
+    while(t--){
+        int senderid,receiverid,amount;
+        cin>>senderid>>receiverid>>amount;
+        bool success=transaction(senderid,receiverid,amount,account);
+        if(success)
+            result.push_back("Success");
+    else
+        result.push_back("Failure");
+    }
+    for(const auto&results:result)
+        cout<<results<<endl;
+    sort(account.begin(),account.end(),comparebal);
+    cout<<endl;
+    for(const auto&accounts:account)
+        cout<<accounts.first<<" "<<accounts.second<<endl;
+    return 0;
+}
